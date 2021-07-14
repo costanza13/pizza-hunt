@@ -16,6 +16,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/pizza-hunt', {
   useUnifiedTopology: true
 });
 
-mongoose.set('debud', true);
+mongoose.set('debug', true);
 
 app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
