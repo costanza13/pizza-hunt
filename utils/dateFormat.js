@@ -92,7 +92,7 @@ module.exports = (
     periodOfDay = 'am';
   }
 
-  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year} at ${hour}:${minutes} ${periodOfDay}`;
+  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year} at ${hour}:${minutes < 10 ? '0' + minutes : minutes} ${periodOfDay}`;
 
   return formattedTimeStamp;
 };
