@@ -8,10 +8,13 @@ const ReplySchema = new Schema({
     default: () => new Types.ObjectId()
   },
   replyBody: {
-    type: String
+    type: String,
+    required: '*Blank Stare* is not a valid reply',
+    trim: true
   },
   writtenBy: {
-    type: String
+    type: String,
+    required: "Don't be ashamed, give us your name!"
   },
   createdAt: {
     type: Date,
@@ -27,10 +30,12 @@ const ReplySchema = new Schema({
 
 const CommentSchema = new Schema({
   writtenBy: {
-    type: String
+    type: String,
+    required: 'Provide a name, or the comment dies.'
   },
   commentBody: {
-    type: String
+    type: String,
+    required: 'Cat got your tongue? Please add some text to your comment.'
   },
   replies: [ReplySchema],
   createdAt: {

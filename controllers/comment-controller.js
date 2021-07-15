@@ -9,8 +9,13 @@ const commentController = {
         return Pizza.findOneAndUpdate(
           { _id: params.pizzaId },
           { $push: { comments: _id } },
-          { new: true }
-        );
+          { new: true, runValidators: true }
+        )
+          .populate({
+            path: 'comments',
+            select: '-__v'
+          })
+          .select('-__v');
       })
       .then(dbPizzaData => {
         if (!dbPizzaData) {
@@ -27,8 +32,13 @@ const commentController = {
     Comment.findOneAndUpdate(
       { _id: params.commentId },
       { $push: { replies: body } },
-      { new: true }
+      { new: true, runValidators: true }
     )
+      .populate({
+        path: 'comments',
+        select: '-__v'
+      })
+      .select('-__v')
       .then(dbPizzaData => {
         if (!dbPizzaData) {
           res.status(404).json({ message: 'No pizza found with this id!' });
@@ -50,7 +60,12 @@ const commentController = {
           { _id: params.pizzaId },
           { $pull: { comments: params.commentId } },
           { new: true }
-        );
+        )
+          .populate({
+            path: 'comments',
+            select: '-__v'
+          })
+          .select('-__v')
       })
       .then(dbPizzaData => {
         if (!dbPizzaData) {
@@ -65,11 +80,16 @@ const commentController = {
   // remove a reply from a comment
   removeReply({ params }, res) {
     Comment.findOneAndUpdate(
-      
-        { _id: params.commentId },
-        { $pull: { replies: { replyId: params.replyId } } },
-        { new: true }
-      )      
+
+      { _id: params.commentId },
+      { $pull: { replies: { replyId: params.replyId } } },
+      { new: true }
+    )
+      .populate({
+        path: 'comments',
+        select: '-__v'
+      })
+      .select('-__v')
       .then(dbPizzaData => {
         if (!dbPizzaData) {
           return res.status(404).json({ message: 'No comment with this id!' });
