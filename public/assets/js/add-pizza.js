@@ -6,7 +6,8 @@ const handleAddTopping = event => {
   event.preventDefault();
 
   const toppingValue = document.querySelector('#new-topping').value;
-
+  document.querySelector('#new-topping').value = '';
+  
   if (!toppingValue) {
     return false;
   }
@@ -52,6 +53,12 @@ const handlePizzaSubmit = event => {
 
   const formData = { pizzaName, createdBy, size, toppings };
 
+  $pizzaForm.querySelector('#pizza-name').value = '';
+  $pizzaForm.querySelector('#created-by').value = '';
+  [...$pizzaForm.querySelectorAll('[name=topping]:checked')].forEach(topping => {
+    topping.checked = false;
+  });
+
   fetch('/api/pizzas', {
     method: 'POST',
     headers: {
@@ -62,8 +69,7 @@ const handlePizzaSubmit = event => {
   })
     .then(response => response.json())
     .then(postResponse => {
-      alert('Pizza created successfully!');
-      console.log(postResponse);
+      document.location.replace(`/pizza?id=${postResponse._id}`);
     })
     .catch(err => {
       console.log(err);
